@@ -75,7 +75,10 @@ sub connect_to_db {
     }
     $dbh->{RaiseError} = 1; #turn on raise error.  Must use exception handling now.
     
-
+    if ($ENV{DBI_DRIVER} eq 'SQLite') {
+        $dbh->do("PRAGMA synchronous = OFF");
+        $dbh->do("PRAGMA cache_size = -524288");  # 512 MB cache
+    }
     
     ## add attributes so can reconnect later in case mysql server goes away.
     
