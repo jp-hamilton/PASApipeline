@@ -65,11 +65,14 @@ RUN wget http://faculty.virginia.edu/wrpearson/fasta/fasta36/fasta-36.3.8g.tar.g
         make -f ../make/Makefile.linux_sse2 all && \
         cp ../bin/fasta36 /usr/local/bin/fasta
 
-       
+
+RUN apt-get install -y samtools && apt-get clean
+
 ## PASA installation
 WORKDIR $SRC
 
-ENV PASA_CO a6965a3
+# pasapipeline v2.4.1
+ENV PASA_CO eebd6223e1a7aa008c8aa63c8969296a0285bd8b
 
 RUN git clone https://github.com/PASApipeline/PASApipeline.git && \
     cd PASApipeline && \
@@ -79,5 +82,8 @@ RUN git clone https://github.com/PASApipeline/PASApipeline.git && \
 
 ENV PASAHOME /usr/local/src/PASApipeline
 
+
+
+RUN cp $PASAHOME/bin/* /usr/local/bin/
 
 
